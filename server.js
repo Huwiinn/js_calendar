@@ -16,9 +16,6 @@ const server = http.createServer((req, res) => {
     try {
         const stat = fs.statSync(filePath);
 
-        console.log('stat : ', stat);
-        console.log('filePath : ', filePath);
-
         if(stat.isDirectory()) {
             filePath = path.join(filePath, 'index.html');
         }
