@@ -10,8 +10,63 @@ let utc = localDate.getTime() + timezoneOffset;
 let timeGapUtcAndKorea = 9 * 60 * 60 * 1000; // 표준시간차 9시간 * 1시간(60분) * 1분(60초) * 1000(밀리초) = 32,400,000ms
 let today = new Date(utc + timeGapUtcAndKorea); // 타임존에 관계없이 동일한 한국시간을 표기
 
-console.log('localDate : ', new Date(localDate));
-console.log('utc : ', new Date(utc));
-console.log('timeGapUtcAndKorea : ', timeGapUtcAndKorea);
-console.log('today : ', today);
 
+const dateObj = {
+    currentYear: today.getFullYear(),
+    currentMonth: today.getMonth() + 1,
+}
+console.log('dateObj : ', dateObj)
+
+const dayList = [
+    {
+        ko: '일요일',
+        en: 'Sun'
+    },
+    {
+        ko: '월요일',
+        en: 'Mon'
+    },
+    {
+        ko: '화요일',
+        en: 'Tue'
+    },
+    {
+        ko: '수요일',
+        en: 'Wed'
+    },
+    {
+        ko: '목요일',
+        en: 'Thu'
+    },
+    {
+        ko: '금요일',
+        en: 'Fri'
+    },
+    {
+        ko: '토요일',
+        en: 'Sat'
+    },
+];
+
+
+// 이전 달 마지막 요일과 날짜 구하기
+let startDay = new Date(dateObj.currentYear, dateObj.currentMonth, 0);
+let prevDate = startDay.getDate(); // 월 마지막 날짜
+let prevDay = startDay.getDay(); // 월 마지막 날짜의 요일, 0~6 숫자로 나타나는데, 일요일부터 토요일을 의미함.
+
+console.log('startDay : ', startDay)
+console.log('prevDate : ', prevDate)
+console.log('prevDay : ', prevDay)
+
+// 이번 달 마지막 요일과 날짜 구하기
+let endDay = new Date(dateObj.currentYear, dateObj.currentMonth + 1, 0);
+let nextDate = endDay.getDate();
+let nextDay = endDay.getDay();
+
+console.log('endDay : ', endDay)
+console.log('nextDate : ', nextDate)
+console.log('nextDay : ', nextDay)
+
+dayList.map((day, idx) => {
+    console.log(`오늘은 ${day.ko}입니다.`)
+})
