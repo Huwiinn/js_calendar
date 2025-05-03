@@ -1,44 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>JS Calendar</title>
-    <meta name="description" content="Vanilla Javascript Calender"/>
-    <link rel="stylesheet" href="style/reset.css">
-    <link rel="stylesheet" href="style/index.module.css">
-    <link rel="icon" href="./favicon.ico" type="image/x-icon">
-</head>
-<body>
-<main>
-    <div class="container">
+    <meta name="description" content="Vanilla Javascript Calender" />
+    <link rel="stylesheet" href="style/reset.css" />
+    <link rel="stylesheet" href="style/index.module.css" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+  </head>
+  <body>
+    <main>
+      <div class="container">
         <!-- Gnb 만들기 -->
         <h1 class="title">Calendar</h1>
 
         <!--  캘린더  -->
-        <div id='calender-container' class="calender-container">
-            <div class="calender-box">
-                <div class="calender-item">
-<!--                    <input-->
-<!--                        type="date"-->
-<!--                        id="start"-->
-<!--                        name="start-date"-->
-<!--                        value=""-->
-<!--                        min="2000-01-01"-->
-<!--                        max="2030-12-31"-->
-<!--                    />-->
-                </div>
-                <div class="calender-item"></div>
-                <div class="calender-item"/></div>
-                <div class="calender-item"/></div>
-                <div class="calender-item"/></div>
-                <div class="calender-item"/></div>
-    <div class="calender-item"/></div>
-            </div>
+        <div id="calender-container" class="calender-container">
+          <ul class="calender-day-container"></ul>
         </div>
-    </div>
-</main>
-<script src="script.js"></script>
-</body>
+      </div>
+    </main>
+    <script src="script.js"></script>
+  </body>
 </html>
