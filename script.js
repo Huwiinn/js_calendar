@@ -66,32 +66,39 @@ console.log("nextDate : ", nextDate);
 console.log("nextDay : ", nextDay);
 
 // html 달력 렌더링 요소 생성
-let calendar = document.querySelector(".calender-container");
-calendar.innerHTML = "";
+let calendar = document.querySelector(".calender-item__container");
 
 // 지난달
 for (let i = prevDate - prevDay; i <= prevDate; i++) {
   console.log({ i });
   calendar.innerHTML =
-    calendar.innerHTML + `<div class='disable prev day'>${i}</div>`;
+    calendar.innerHTML +
+    `<div class='disable prev day'><span class='text'>${i}</span></div>`;
 }
 
 // 이번달
 for (let i = 1; i <= nextDate; i++) {
   calendar.innerHTML =
-    calendar.innerHTML + `<div class='current day'>${i}</div>`;
+    calendar.innerHTML +
+    `<div class='current day'><span class='text'>${i}</span></div>`;
 }
 
+console.log(7 - nextDay === 7 ? 7 : 7 - nextDate);
 // 다음달
 for (let i = 1; i <= (7 - nextDay === 7 ? 7 : 7 - nextDate); i++) {
+  console.log("다음달인데요");
   calendar.innerHTML =
-    calendar.innerHTML + `<div class='disable next dey'>${i}</div>`;
+    calendar.innerHTML +
+    `<div class='disable next dey'><span class='text'>${i}</span></div>`;
 }
 
-const dayElement = document.querySelector(".calender-day-container");
+const dayElement = document.querySelector(".calender-day__container");
 console.log("dayElement : ", dayElement);
 
-dayList.map((item, idx) => {
+const title = document.querySelector(".title");
+title.innerHTML = `${dateObj.currentYear}년 ${dateObj.currentMonth}월`;
+
+dayList.map((item) => {
   console.log("item : ", item);
   const dayItem = document.createElement("li");
   dayItem.className = "day-item";
