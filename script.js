@@ -68,28 +68,29 @@ console.log("nextDay : ", nextDay);
 // html 달력 렌더링 요소 생성
 let calendar = document.querySelector(".calender-item__container");
 
+const nextMonthDayCount = nextDay === 6 ? 0 : 6 - nextDay;
+
 // 지난달
 for (let i = prevDate - prevDay; i <= prevDate; i++) {
   console.log({ i });
   calendar.innerHTML =
     calendar.innerHTML +
-    `<div class='disable prev day'><span class='text'>${i}</span></div>`;
+    `<li class='disable prev day'><span class='text'>${i}</span></li>`;
 }
 
 // 이번달
 for (let i = 1; i <= nextDate; i++) {
   calendar.innerHTML =
     calendar.innerHTML +
-    `<div class='current day'><span class='text'>${i}</span></div>`;
+    `<li class='current day'><span class='text'>${i}</span></li>`;
 }
 
-console.log(7 - nextDay === 7 ? 7 : 7 - nextDate);
 // 다음달
-for (let i = 1; i <= (7 - nextDay === 7 ? 7 : 7 - nextDate); i++) {
+for (let i = 1; i <= nextMonthDayCount; i++) {
   console.log("다음달인데요");
   calendar.innerHTML =
     calendar.innerHTML +
-    `<div class='disable next dey'><span class='text'>${i}</span></div>`;
+    `<li class='disable next day'><span class='text'>${i}</span></li>`;
 }
 
 const dayElement = document.querySelector(".calender-day__container");
