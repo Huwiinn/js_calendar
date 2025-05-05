@@ -99,8 +99,35 @@ for (let i = 1; i <= nextMonthDayCount; i++) {
 const dayElement = document.querySelector(".calender-day__container");
 console.log("dayElement : ", dayElement);
 
-const title = document.querySelector(".title");
+let title = document.querySelector(".title");
 title.innerHTML = `${dateObj.currentYear}년 ${dateObj.currentMonth + 1}월`;
+
+const handleTitle = (option) => {
+  if (option === "prev") {
+    console.log("이전달 보여주기");
+    dateObj.currentMonth = dateObj.currentMonth - 1;
+
+    // 다시 초기화하고 변경된 값 보여주기
+    title.innerHTML = `${dateObj.currentYear}년 ${dateObj.currentMonth + 1}월`;
+
+    console.log({ dateObj });
+  }
+
+  if (option === "next") {
+    console.log("다음달 보여주기");
+    dateObj.currentMonth = dateObj.currentMonth + 1;
+
+    // 다시 초기화하고 변경된 값 보여주기
+    title.innerHTML = `${dateObj.currentYear}년 ${dateObj.currentMonth + 1}월`;
+    console.log({ dateObj });
+  }
+};
+
+const prevBtn = document.querySelector(".prev-month");
+const nextBtn = document.querySelector(".next-month");
+
+prevBtn.addEventListener("click", () => handleTitle("prev"));
+nextBtn.addEventListener("click", () => handleTitle("next"));
 
 // ~요일 요소
 dayList.map((item) => {
