@@ -12,7 +12,7 @@ let today = new Date(utc + timeGapUtcAndKorea); // 타임존에 관계없이 동
 
 const dateObj = {
   currentYear: today.getFullYear(),
-  currentMonth: today.getMonth() + 1,
+  currentMonth: today.getMonth(), // 0~11로 계산해야 해당 '월'과 일치하는 요일을 구할 수 있음. 이전엔 1~12로 표기하기 위해서 +1을 했는데, 5월에 6월 요일이 들어와버리는 이슈존재했음
 };
 console.log("dateObj : ", dateObj);
 
@@ -97,14 +97,12 @@ const dayElement = document.querySelector(".calender-day__container");
 console.log("dayElement : ", dayElement);
 
 const title = document.querySelector(".title");
-title.innerHTML = `${dateObj.currentYear}년 ${dateObj.currentMonth}월`;
+title.innerHTML = `${dateObj.currentYear}년 ${dateObj.currentMonth + 1}월`;
 
+// ~요일 요소
 dayList.map((item) => {
-  console.log("item : ", item);
   const dayItem = document.createElement("li");
   dayItem.className = "day-item";
   dayItem.textContent = item.ko;
-  console.log(dayItem);
-  console.log(dayElement);
   dayElement.appendChild(dayItem);
 });
