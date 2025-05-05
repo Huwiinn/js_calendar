@@ -1,8 +1,4 @@
-// const calenderItem = document.querySelector('.calender-item');
-//
-// console.log('calenderItem : ', calenderItem);
-//
-// calenderItem.innerHTML = '5월';
+import { getSunday } from "./utils/index.js";
 
 let localDate = new Date();
 let timezoneOffset = localDate.getTimezoneOffset() * 60 * 1000;
@@ -14,7 +10,8 @@ const dateObj = {
   currentYear: today.getFullYear(),
   currentMonth: today.getMonth(), // 0~11로 계산해야 해당 '월'과 일치하는 요일을 구할 수 있음. 이전엔 1~12로 표기하기 위해서 +1을 했는데, 5월에 6월 요일이 들어와버리는 이슈존재했음
 };
-console.log("dateObj : ", dateObj);
+
+// console.log("dateObj : ", dateObj);
 
 const dayList = [
   {
@@ -65,14 +62,13 @@ console.log("endDay : ", endDay);
 console.log("nextDate : ", nextDate);
 console.log("nextDay : ", nextDay);
 
-// html 달력 렌더링 요소 생성
+// html 달력 렌더링 요소 선택
 let calendar = document.querySelector(".calender-item__container");
 
 const nextMonthDayCount = nextDay === 6 ? 0 : 6 - nextDay;
 
 // 지난달
 for (let i = prevDate - prevDay; i <= prevDate; i++) {
-  console.log({ i });
   calendar.innerHTML =
     calendar.innerHTML +
     `<li class='disable prev day'><span class='text'>${i}</span></li>`;
@@ -80,14 +76,21 @@ for (let i = prevDate - prevDay; i <= prevDate; i++) {
 
 // 이번달
 for (let i = 1; i <= nextDate; i++) {
-  calendar.innerHTML =
-    calendar.innerHTML +
-    `<li class='current day'><span class='text'>${i}</span></li>`;
+  const sunday = getSunday(dateObj.currentYear, dateObj.currentMonth, i);
+
+  if (sunday !== null) {
+    calendar.innerHTML =
+      calendar.innerHTML +
+      `<li class='current day'><span class='text sunday'>${i}</span></li>`;
+  } else {
+    calendar.innerHTML =
+      calendar.innerHTML +
+      `<li class='current day'><span class='text'>${i}</span></li>`;
+  }
 }
 
 // 다음달
 for (let i = 1; i <= nextMonthDayCount; i++) {
-  console.log("다음달인데요");
   calendar.innerHTML =
     calendar.innerHTML +
     `<li class='disable next day'><span class='text'>${i}</span></li>`;
@@ -106,3 +109,6 @@ dayList.map((item) => {
   dayItem.textContent = item.ko;
   dayElement.appendChild(dayItem);
 });
+
+console.log("오늘 날짜: ", today.toLocaleDateString());
+console.log("today : ", today);
