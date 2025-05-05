@@ -13,7 +13,7 @@
   <body>
     <main>
       <div class="container">
-        <!-- Header / 로고, github 바로가기 넣을 자리 -->
+        <!-- github 바로가기, 영문 컨텍스트 버튼 -->
         <header>
           <nav>
             <div>
@@ -32,7 +32,21 @@
             <button type="button" class="language">KO</button>
           </nav>
         </header>
-        <h1 class="title"></h1>
+        <div class="title-container">
+          <button type="button" class="prev-month" aria-label="prev-month-btn">
+            <div class="prev-arrow">
+              <span></span>
+              <span></span>
+            </div>
+          </button>
+          <h1 class="title"></h1>
+          <button type="button" class="next-month" aria-label="next-month-btn">
+            <div class="next-arrow">
+              <span></span>
+              <span></span>
+            </div>
+          </button>
+        </div>
 
         <!-- 캘린더 -->
         <div id="calender-container" class="calender-container">
