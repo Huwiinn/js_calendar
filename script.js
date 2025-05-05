@@ -107,6 +107,12 @@ const handleTitle = (option) => {
     console.log("이전달 보여주기");
     dateObj.currentMonth = dateObj.currentMonth - 1;
 
+    // 1월보다 아래로 갈 수 없음. 1월 다음엔 작년 12월로 돌아가야함
+    if (dateObj.currentMonth < 0) {
+      dateObj.currentMonth = 11;
+      dateObj.currentYear = dateObj.currentYear - 1;
+    }
+
     // 다시 초기화하고 변경된 값 보여주기
     title.innerHTML = `${dateObj.currentYear}년 ${dateObj.currentMonth + 1}월`;
 
@@ -116,6 +122,12 @@ const handleTitle = (option) => {
   if (option === "next") {
     console.log("다음달 보여주기");
     dateObj.currentMonth = dateObj.currentMonth + 1;
+
+    // 12월보다 위로 갈 수 없음. 12월 다음엔 내년 1월로 올라가야함
+    if (dateObj.currentMonth > 11) {
+      dateObj.currentMonth = 0;
+      dateObj.currentYear = dateObj.currentYear + 1;
+    }
 
     // 다시 초기화하고 변경된 값 보여주기
     title.innerHTML = `${dateObj.currentYear}년 ${dateObj.currentMonth + 1}월`;
