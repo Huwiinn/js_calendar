@@ -72,7 +72,7 @@ const nextMonthDayCount = nextDay === 6 ? 0 : 6 - nextDay;
 for (let i = prevDate - prevDay; i <= prevDate; i++) {
   calendar.innerHTML =
     calendar.innerHTML +
-    `<li class='disable prev day'><span class='text'>${i}</span></li>`;
+    `<li class='disable prev day'><span class='text'>${dateObj.currentMonth}월 ${i}일</span></li>`;
 }
 
 // 이번달
@@ -94,7 +94,7 @@ for (let i = 1; i <= nextDate; i++) {
 for (let i = 1; i <= nextMonthDayCount; i++) {
   calendar.innerHTML =
     calendar.innerHTML +
-    `<li class='disable next day'><span class='text'>${i}</span></li>`;
+    `<li class='disable next day'><span class='text'>${dateObj.currentMonth}월 ${i}일</span></li>`;
 }
 
 const dayElement = document.querySelector(".calender-day__container");
@@ -103,110 +103,65 @@ const dayElement = document.querySelector(".calender-day__container");
 let title = document.querySelector(".title");
 title.innerHTML = `${dateObj.currentYear}년 ${dateObj.currentMonth + 1}월`;
 
+const renderCalendar = (year, month) => {
+  calendar.innerHTML = "";
+
+  const firstDay = new Date(year, month, 1);
+  const lastDate = new Date(year, month + 1, 0).getDate();
+  const lastDay = new Date(year, month + 1, 0).getDay();
+
+  // 이전달 마지막 날짜
+  const prevLastDate = new Date(year, month, 0).getDate();
+  const prevLastDay = new Date(year, month, 0).getDay();
+
+  // 이전달 tail
+  if (firstDay.getDay() !== 0) {
+    let startPrevMonthDay = prevLastDate - firstDay.getDay() + 1;
+    for (let i = startPrevMonthDay; i <= prevLastDate; i++) {
+      calendar.innerHTML += `<li class='disable prev day'><span class='text'>${month}월 ${i}일</span></li>`;
+    }
+  }
+
+  // 이번달 days
+  for (let i = 1; i <= lastDate; i++) {
+    const sunday = getSunday(year, month, i);
+    if (sunday !== null) {
+      calendar.innerHTML += `<li class='current day'><span class='text sunday'>${i}</span></li>`;
+    } else {
+      calendar.innerHTML += `<li class='current day'><span class='text'>${i}</span></li>`;
+    }
+  }
+
+  // 다음달 head
+  const nextMonthDayCount = lastDay === 6 ? 0 : 6 - lastDay;
+  for (let i = 1; i <= nextMonthDayCount; i++) {
+    calendar.innerHTML += `<li class='disable next day'><span class='text'>${
+      month + 2
+    }월 ${i}일</span></li>`;
+  }
+
+  title.innerHTML = `${year}년 ${month + 1}월`;
+};
+
 const getChangedDate = (option) => {
+  let year = dateObj.currentYear;
+  let month = dateObj.currentMonth;
   if (option === "prev") {
-    console.log("이전달 보여주기");
-    dateObj.currentMonth = dateObj.currentMonth - 1;
-
-    // 1월보다 아래로 갈 수 없음. 1월 다음엔 작년 12월로 돌아가야함
-    if (dateObj.currentMonth < 0) {
-      dateObj.currentMonth = 11;
-      dateObj.currentYear = dateObj.currentYear - 1;
+    month--;
+    if (month < 0) {
+      month = 11;
+      year--;
     }
-
-    // 전달 첫 요일 Date 객체
-    let firstDayOfPrevMonth = new Date(
-      dateObj.currentYear,
-      dateObj.currentMonth,
-      1
-    );
-
-    // 전달 마지막요일 Date 객체, 5월을 예시로 들고 0을 넣으면 5월 0일임. 즉, 5월 0일 === 4월 마지막일 반환
-    let lastDayOfPrevMonth = new Date(
-      dateObj.currentYear,
-      dateObj.currentMonth + 1, // 4월 0일을 구하면 3월 마지막 날이 출력된다. 그래서 일부러 +1을 하여 마지막날을 구할 수 있도록 함
-      0
-    );
-
-    let prevStartDateNum = firstDayOfPrevMonth.getDate(); // 시작일 날짜 반환 (1일)
-    let prevLastDateNum = lastDayOfPrevMonth.getDate(); // 마지막 요일 날짜 반환 (28일, 30일, 31일);
-    let prevStartDateDay = firstDayOfPrevMonth.getDay(); // 시작일 요일
-    let prevLastDateDay = lastDayOfPrevMonth.getDay(); // 마지막 요일 반환;
-
-    // console.log("firstDayOfPrevMonth : ", firstDayOfPrevMonth);
-    // console.log("lastDayOfPrevMonth : ", lastDayOfPrevMonth);
-    console.log("prevStartDateNum : ", prevStartDateNum);
-    console.log("prevLastDateNum : ", prevLastDateNum);
-    console.log("prevStartDateDay : ", prevStartDateDay);
-    console.log("prevLastDateDay : ", prevLastDateDay);
-
-    // 캘린더 초기화
-    calendar.innerHTML = "";
-
-    // 이전달의 이전달 날짜 구하기
-    // 이전달 시작이 일요일이 아닐 때만 표시
-    if (prevStartDateDay !== 0) {
-      let loopStartNum = prevLastDateNum - prevStartDateDay + 1;
-      for (let i = loopStartNum; i <= prevLastDateNum; i++) {
-        console.log({ i });
-        calendar.innerHTML =
-          calendar.innerHTML +
-          `<li class='disable prev day'><span class='text'>${i}</span></li>`;
-      }
+  } else if (option === "next") {
+    month++;
+    if (month > 11) {
+      month = 0;
+      year++;
     }
-
-    // 해당 월 캘린더 다시 그리기
-    for (let i = 1; i <= prevLastDateNum; i++) {
-      // console.log({ i });
-      const sunday = getSunday(dateObj.currentYear, dateObj.currentMonth, i);
-
-      if (sunday !== null) {
-        calendar.innerHTML =
-          calendar.innerHTML +
-          `<li class='current day'><span class='text sunday'>${i}</span></li>`;
-      } else {
-        calendar.innerHTML =
-          calendar.innerHTML +
-          `<li class='current day'><span class='text'>${i}</span></li>`;
-      }
-    }
-
-    let endDay = new Date(dateObj.currentYear, dateObj.currentMonth + 1, 0);
-    let nextDay = endDay.getDay();
-    let nextMonthDayCount = nextDay === 6 ? 0 : 6 - nextDay;
-
-    // 다음달
-    for (let i = 1; i <= nextMonthDayCount; i++) {
-      console.log({ nextMonthDayCount });
-      calendar.innerHTML =
-        calendar.innerHTML +
-        `<li class='disable next day'><span class='text'>${i}</span></li>`;
-    }
-
-    // 이전달의 다음달 날짜 구하기
-
-    // console.log(new Date(dateObj.currentYear, dateObj.currentMonth).getDay());
-
-    // 다시 초기화하고 변경된 값 보여주기
-    title.innerHTML = `${dateObj.currentYear}년 ${dateObj.currentMonth + 1}월`;
-
-    console.log({ dateObj });
   }
-
-  if (option === "next") {
-    console.log("다음달 보여주기");
-    dateObj.currentMonth = dateObj.currentMonth + 1;
-
-    // 12월보다 위로 갈 수 없음. 12월 다음엔 내년 1월로 올라가야함
-    if (dateObj.currentMonth > 11) {
-      dateObj.currentMonth = 0;
-      dateObj.currentYear = dateObj.currentYear + 1;
-    }
-
-    // 다시 초기화하고 변경된 값 보여주기
-    title.innerHTML = `${dateObj.currentYear}년 ${dateObj.currentMonth + 1}월`;
-    console.log({ dateObj });
-  }
+  dateObj.currentYear = year;
+  dateObj.currentMonth = month;
+  renderCalendar(year, month);
 };
 
 const prevBtn = document.querySelector(".prev-month");
