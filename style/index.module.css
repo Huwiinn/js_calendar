@@ -41,15 +41,16 @@ button.language:hover {
 .marquee-container {
   /* background-color: green; */
   border-top: 1px solid lightgrey;
-  padding: 12px 24px;
+  padding: 8px 24px;
 }
 
 .marquee-container .content {
   width: 100%;
   display: inline-block;
   overflow-x: hidden;
-  animation: marquee 16s linear infinite;
+  animation: marquee 20s linear infinite;
   text-wrap: nowrap;
+  font-size: 12px;
 }
 
 .title-container {
