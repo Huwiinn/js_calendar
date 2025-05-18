@@ -15,7 +15,6 @@ header {
   left: 0;
   width: 100%;
   z-index: 100;
-  /* padding: 20px 24px; */
 }
 
 header > nav {
@@ -37,6 +36,20 @@ button.language:hover {
   color: #f2f2f2;
   background-color: #333;
   transition-duration: 0.3s;
+}
+
+.marquee-container {
+  /* background-color: green; */
+  border-top: 1px solid lightgrey;
+  padding: 12px 24px;
+}
+
+.marquee-container .content {
+  width: 100%;
+  display: inline-block;
+  overflow-x: hidden;
+  animation: marquee 16s linear infinite;
+  text-wrap: nowrap;
 }
 
 .title-container {
@@ -221,38 +234,28 @@ p.today {
 }
 
 /* animation */
-@keyframes moveLeftArrow-topline {
-  0% {
-    transform: translateX(-50%) rotate(315deg);
-  }
-  50% {
-    transform: translateX(-85%) rotate(45deg);
-  }
-  100% {
-    transform: translateY(-50%) rotate(45deg);
-  }
-}
-
-@keyframes moveLeftArrow-bottomline {
-  0% {
-    transform: translateX(-50%) rotate(45deg);
-  }
-  50% {
-    transform: translateX(-85%) rotate(45deg);
-  }
-  100% {
-    transform: translateY(-50%) rotate(45deg);
-  }
-}
-
-@keyframes moveRightArrow {
+/* @keyframes marquee {
   0% {
     transform: translateX(-50%);
   }
+  25% {
+    transform: translateX(0%);
+  }
   50% {
-    transform: translateY(-25%);
+    transform: translateX(50%);
+  }
+  75% {
+    transform: translateX(100%);
   }
   100% {
-    transform: translateY(-50%);
+    transform: translateX(150%);
+  }
+} */
+@keyframes marquee {
+  from {
+    transform: translateX(120%);
+  } /* 왼쪽 바깥에서 시작 */
+  to {
+    transform: translateX(-120%);
   }
 }

@@ -181,3 +181,27 @@ dayList.map((item) => {
 
 console.log("오늘 날짜: ", today.toLocaleDateString());
 console.log("today : ", today);
+
+// 한글, 영문 스위치 버튼 눌렀을 때
+const langBtn = document.querySelector(".language");
+langBtn.addEventListener("click", () => alert("---💧 미구현 기능 💧---"));
+
+const getKoreanAdvice = async () => {
+  const res = await fetch(
+    "https://korean-advice-open-api.vercel.app/api/advice"
+  );
+  const req = await res.json();
+  const data = await req;
+
+  const advice = `${data.message} - ${data.author}`;
+
+  const marqueeContentElement = document.querySelector(".marquee-container");
+  const marqueeContent = document.createElement("p");
+  marqueeContent.innerHTML = `<p class="content">${advice} </p>`;
+
+  console.log("advice : ", advice);
+  console.log("marqueeContentElement ", marqueeContentElement);
+  marqueeContentElement.appendChild(marqueeContent);
+};
+
+getKoreanAdvice();
