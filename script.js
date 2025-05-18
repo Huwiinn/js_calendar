@@ -1,4 +1,4 @@
-import { getSunday } from "./utils/index.js";
+import { getDayElement, getSunday } from "./utils/index.js";
 
 let localDate = new Date();
 let timezoneOffset = localDate.getTimezoneOffset() * 60 * 1000;
@@ -42,9 +42,6 @@ const dayList = [
   },
 ];
 
-// 공통으로 쓸 수 있는 것들 정리해야함
-// 함수로 뺄 수 있는 것을 추려서 리팩토링 진행 필요함 => 지금 반복적으로 사용되는 것들
-
 // 이전 달 마지막 요일과 날짜 구하기
 let startDay = new Date(dateObj.currentYear, dateObj.currentMonth, 0);
 let prevDate = startDay.getDate(); // 월 마지막 날짜
@@ -78,16 +75,9 @@ for (let i = prevDate - prevDay; i <= prevDate; i++) {
 // 이번달
 for (let i = 1; i <= nextDate; i++) {
   const sunday = getSunday(dateObj.currentYear, dateObj.currentMonth, i);
+  const element = getDayElement(i, Number(today.getDate()), sunday, true);
 
-  if (sunday !== null) {
-    calendar.innerHTML =
-      calendar.innerHTML +
-      `<li class='current day'><span class='text sunday'>${i}</span></li>`;
-  } else {
-    calendar.innerHTML =
-      calendar.innerHTML +
-      `<li class='current day'><span class='text'>${i}</span></li>`;
-  }
+  calendar.innerHTML = calendar.innerHTML + element;
 }
 
 // 다음달
@@ -103,7 +93,14 @@ const dayElement = document.querySelector(".calender-day__container");
 let title = document.querySelector(".title");
 title.innerHTML = `${dateObj.currentYear}년 ${dateObj.currentMonth + 1}월`;
 
+// 이전달, 다음달 버튼 클릭시 날짜 계산 후, 렌더링
 const renderCalendar = (year, month) => {
+  const nowYear = today.getFullYear();
+  const nowMonth = today.getMonth();
+
+  const isYear = year === nowYear;
+  const isMonth = month === nowMonth;
+
   calendar.innerHTML = "";
 
   const firstDay = new Date(year, month, 1);
@@ -125,11 +122,15 @@ const renderCalendar = (year, month) => {
   // 이번달 days
   for (let i = 1; i <= lastDate; i++) {
     const sunday = getSunday(year, month, i);
-    if (sunday !== null) {
-      calendar.innerHTML += `<li class='current day'><span class='text sunday'>${i}</span></li>`;
+    let element = "";
+
+    if (isYear && isMonth) {
+      element = getDayElement(i, Number(today.getDate()), sunday, true);
     } else {
-      calendar.innerHTML += `<li class='current day'><span class='text'>${i}</span></li>`;
+      element = getDayElement(i, Number(today.getDate()), sunday, false);
     }
+
+    calendar.innerHTML = calendar.innerHTML + element;
   }
 
   // 다음달 head

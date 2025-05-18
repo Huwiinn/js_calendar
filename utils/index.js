@@ -10,62 +10,30 @@ export const getSunday = (year, month, day) => {
   return null;
 };
 
-const renderCalendar = (year, month) => {
-  calendar.innerHTML = "";
-
-  const firstDay = new Date(year, month, 1).getDay();
-  const lastDate = new Date(year, month + 1, 0).getDate();
-  const lastDay = new Date(year, month, lastDate).getDay();
-
-  // 이전 달 tail
-  const prevLastDate = new Date(year, month, 0).getDate();
-  for (let i = firstDay - 1; i >= 0; i--) {
-    const day = prevLastDate - i;
-    const prevMonthDay = document.createElement("div");
-    prevMonthDay.classList.add("day", "prev-month");
-    prevMonthDay.textContent = day;
-    calendar.appendChild(prevMonthDay);
+export const getDayElement = (day, today, isSunday, isNowMonth) => {
+  let isTodayStr = "today";
+  if (!isNowMonth) {
+    isTodayStr = "not-today";
   }
 
-  // 현재 달
-  for (let i = 1; i <= lastDate; i++) {
-    const currentDay = document.createElement("div");
-    currentDay.classList.add("day");
-    if (getSunday(year, month, i) === 0) {
-      currentDay.classList.add("sunday");
-    }
-    currentDay.textContent = i;
-    calendar.appendChild(currentDay);
+  if (isSunday !== null) {
+    const sundayElement =
+      today === day
+        ? `<li class='day ${isTodayStr}'><span class='text sunday'>${day}</span>
+        <p class='today'>Today!</p>
+        </li>`
+        : `<li class='day'><span class='text sunday'>${day}</span></li>`;
+
+    return sundayElement;
   }
 
-  // 다음 달 head
-  for (let i = 1; i < 7 - lastDay; i++) {
-    const nextMonthDay = document.createElement("div");
-    nextMonthDay.classList.add("day", "next-month");
-    nextMonthDay.textContent = i;
-    calendar.appendChild(nextMonthDay);
-  }
+  if (day === today) {
+    const todayElement = `<li class='day ${isTodayStr}'><span class='text'>${day}</span></li>`;
 
-  title.textContent = `${year}년 ${month + 1}월`;
-};
+    return todayElement;
+  } else {
+    const element = `<li class='day'><span class='text'>${day}</span></li>`;
 
-const getChangedDate = (option) => {
-  let year = dateObj.currentYear;
-  let month = dateObj.currentMonth;
-  if (option === "prev") {
-    month--;
-    if (month < 0) {
-      month = 11;
-      year--;
-    }
-  } else if (option === "next") {
-    month++;
-    if (month > 11) {
-      month = 0;
-      year++;
-    }
+    return element;
   }
-  dateObj.currentYear = year;
-  dateObj.currentMonth = month;
-  renderCalendar(year, month);
 };
